@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="common" />
+        <module name="console" />
+        <module name="file" />
+        <module name="index" />
+        <module name="login" />
+        <module name="shopping" />
+        <module name="show" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="common" target="1.8" />
+      <module name="console" target="1.8" />
+      <module name="file" target="1.5" />
+      <module name="Huawei" target="1.8" />
+      <module name="index" target="1.8" />
+      <module name="login" target="1.8" />
+      <module name="portal" target="1.8" />
+      <module name="shopping" target="1.8" />
+      <module name="show" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

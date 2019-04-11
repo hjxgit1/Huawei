@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Huawei.iml" filepath="$PROJECT_DIR$/Huawei.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/console/console.iml" filepath="$PROJECT_DIR$/console/console.iml" />
+      <module fileurl="file://$PROJECT_DIR$/file/file.iml" filepath="$PROJECT_DIR$/file/file.iml" />
+      <module fileurl="file://$PROJECT_DIR$/portal/index/index.iml" filepath="$PROJECT_DIR$/portal/index/index.iml" />
+      <module fileurl="file://$PROJECT_DIR$/portal/login/login.iml" filepath="$PROJECT_DIR$/portal/login/login.iml" />
+      <module fileurl="file://$PROJECT_DIR$/portal/portal.iml" filepath="$PROJECT_DIR$/portal/portal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/portal/shopping/shopping.iml" filepath="$PROJECT_DIR$/portal/shopping/shopping.iml" />
+      <module fileurl="file://$PROJECT_DIR$/portal/show/show.iml" filepath="$PROJECT_DIR$/portal/show/show.iml" />
+    </modules>
+  </component>
+</project>

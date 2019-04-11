@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cssl.dao.ImageMapper">
+  <resultMap id="BaseResultMap" type="com.cssl.entity.Image">
+    <id column="image_id" jdbcType="INTEGER" property="imageId" />
+    <result column="phone_id" jdbcType="INTEGER" property="phoneId" />
+    <result column="phone_colorid" jdbcType="INTEGER" property="phoneColorid" />
+    <result column="smallimage_path" jdbcType="VARCHAR" property="smallimagePath" />
+    <result column="bigimg_path" jdbcType="VARCHAR" property="bigimgPath" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    image_id, phone_id, phone_colorid, smallimage_path, bigimg_path
+  </sql>
+  <select id="selectByExample" parameterType="com.cssl.entity.ImageExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from huawei_image
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from huawei_image
+    where image_id = #{imageId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from huawei_image
+    where image_id = #{imageId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cssl.entity.ImageExample">
+    delete from huawei_image
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cssl.entity.Image">
+    insert into huawei_image (image_id, phone_id, phone_colorid, 
+      smallimage_path, bigimg_path)
+    values (#{imageId,jdbcType=INTEGER}, #{phoneId,jdbcType=INTEGER}, #{phoneColorid,jdbcType=INTEGER}, 
+      #{smallimagePath,jdbcType=VARCHAR}, #{bigimgPath,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cssl.entity.Image">
+    insert into huawei_image
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="imageId != null">
+        image_id,
+      </if>
+      <if test="phoneId != null">
+        phone_id,
+      </if>
+      <if test="phoneColorid != null">
+        phone_colorid,
+      </if>
+      <if test="smallimagePath != null">
+        smallimage_path,
+      </if>
+      <if test="bigimgPath != null">
+        bigimg_path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="imageId != null">
+        #{imageId,jdbcType=INTEGER},
+      </if>
+      <if test="phoneId != null">
+        #{phoneId,jdbcType=INTEGER},
+      </if>
+      <if test="phoneColorid != null">
+        #{phoneColorid,jdbcType=INTEGER},
+      </if>
+      <if test="smallimagePath != null">
+        #{smallimagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="bigimgPath != null">
+        #{bigimgPath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cssl.entity.ImageExample" resultType="java.lang.Long">
+    select count(*) from huawei_image
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update huawei_image
+    <set>
+      <if test="record.imageId != null">
+        image_id = #{record.imageId,jdbcType=INTEGER},
+      </if>
+      <if test="record.phoneId != null">
+        phone_id = #{record.phoneId,jdbcType=INTEGER},
+      </if>
+      <if test="record.phoneColorid != null">
+        phone_colorid = #{record.phoneColorid,jdbcType=INTEGER},
+      </if>
+      <if test="record.smallimagePath != null">
+        smallimage_path = #{record.smallimagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bigimgPath != null">
+        bigimg_path = #{record.bigimgPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update huawei_image
+    set image_id = #{record.imageId,jdbcType=INTEGER},
+      phone_id = #{record.phoneId,jdbcType=INTEGER},
+      phone_colorid = #{record.phoneColorid,jdbcType=INTEGER},
+      smallimage_path = #{record.smallimagePath,jdbcType=VARCHAR},
+      bigimg_path = #{record.bigimgPath,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cssl.entity.Image">
+    update huawei_image
+    <set>
+      <if test="phoneId != null">
+        phone_id = #{phoneId,jdbcType=INTEGER},
+      </if>
+      <if test="phoneColorid != null">
+        phone_colorid = #{phoneColorid,jdbcType=INTEGER},
+      </if>
+      <if test="smallimagePath != null">
+        smallimage_path = #{smallimagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="bigimgPath != null">
+        bigimg_path = #{bigimgPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where image_id = #{imageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cssl.entity.Image">
+    update huawei_image
+    set phone_id = #{phoneId,jdbcType=INTEGER},
+      phone_colorid = #{phoneColorid,jdbcType=INTEGER},
+      smallimage_path = #{smallimagePath,jdbcType=VARCHAR},
+      bigimg_path = #{bigimgPath,jdbcType=VARCHAR}
+    where image_id = #{imageId,jdbcType=INTEGER}
+  </update>
+</mapper>

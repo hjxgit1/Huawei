@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cssl.dao.ICategoryMapper">
+  <resultMap id="BaseResultMap" type="com.cssl.entity.Category">
+    <id column="hpc_id" jdbcType="INTEGER" property="hpcId" />
+    <result column="hpc_name" jdbcType="VARCHAR" property="hpcName" />
+    <result column="hpc_parent_id" jdbcType="INTEGER" property="hpcParentId" />
+    <collection column="hpcId" property="categoryList"  select="com.cssl.dao.ICategoryMapper.selectSubmenu"></collection>
+    <collection property="phonesList" column="hpcId" select="com.cssl.dao.IPhoneMapper.selectPhone"></collection>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                and ${criterion.condition}
+              </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    hpc_id, hpc_name, hpc_parent_id
+  </sql>
+  <select id="selectByExample" parameterType="com.cssl.entity.CategoryExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from huawei_product_category
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+
+
+  <select id="selectCategory" resultMap="BaseResultMap">
+       SELECT * FROM huawei_product_category WHERE  hpc_parent_id = 0
+  </select>
+
+  <select id="selectSubmenu" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+      SELECT * FROM huawei_product_category
+      WHERE hpc_parent_id IN (
+	     #{hpcId}
+      )
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from huawei_product_category
+    where hpc_id = #{hpcId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from huawei_product_category
+    where hpc_id = #{hpcId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cssl.entity.CategoryExample">
+    delete from huawei_product_category
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cssl.entity.Category">
+    insert into huawei_product_category (hpc_id, hpc_name, hpc_parent_id
+      )
+    values (#{hpcId,jdbcType=INTEGER}, #{hpcName,jdbcType=VARCHAR}, #{hpcParentId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cssl.entity.Category">
+    insert into huawei_product_category
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="hpcId != null">
+        hpc_id,
+      </if>
+      <if test="hpcName != null">
+        hpc_name,
+      </if>
+      <if test="hpcParentId != null">
+        hpc_parent_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="hpcId != null">
+        #{hpcId,jdbcType=INTEGER},
+      </if>
+      <if test="hpcName != null">
+        #{hpcName,jdbcType=VARCHAR},
+      </if>
+      <if test="hpcParentId != null">
+        #{hpcParentId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cssl.entity.CategoryExample" resultType="java.lang.Long">
+    select count(*) from huawei_product_category
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update huawei_product_category
+    <set>
+      <if test="record.hpcId != null">
+        hpc_id = #{record.hpcId,jdbcType=INTEGER},
+      </if>
+      <if test="record.hpcName != null">
+        hpc_name = #{record.hpcName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hpcParentId != null">
+        hpc_parent_id = #{record.hpcParentId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update huawei_product_category
+    set hpc_id = #{record.hpcId,jdbcType=INTEGER},
+      hpc_name = #{record.hpcName,jdbcType=VARCHAR},
+      hpc_parent_id = #{record.hpcParentId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cssl.entity.Category">
+    update huawei_product_category
+    <set>
+      <if test="hpcName != null">
+        hpc_name = #{hpcName,jdbcType=VARCHAR},
+      </if>
+      <if test="hpcParentId != null">
+        hpc_parent_id = #{hpcParentId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where hpc_id = #{hpcId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cssl.entity.Category">
+    update huawei_product_category
+    set hpc_name = #{hpcName,jdbcType=VARCHAR},
+      hpc_parent_id = #{hpcParentId,jdbcType=INTEGER}
+    where hpc_id = #{hpcId,jdbcType=INTEGER}
+  </update>
+</mapper>

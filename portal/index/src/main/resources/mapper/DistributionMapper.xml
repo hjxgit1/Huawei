@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cssl.dao.DistributionMapper">
+  <resultMap id="BaseResultMap" type="com.cssl.entity.Distribution">
+    <id column="od_distributionid" jdbcType="INTEGER" property="odDistributionid" />
+    <result column="od_distributionname" jdbcType="VARCHAR" property="odDistributionname" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    od_distributionid, od_distributionname
+  </sql>
+  <select id="selectByExample" parameterType="com.cssl.entity.DistributionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from huawei_distribution
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from huawei_distribution
+    where od_distributionid = #{odDistributionid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from huawei_distribution
+    where od_distributionid = #{odDistributionid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cssl.entity.DistributionExample">
+    delete from huawei_distribution
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cssl.entity.Distribution">
+    insert into huawei_distribution (od_distributionid, od_distributionname
+      )
+    values (#{odDistributionid,jdbcType=INTEGER}, #{odDistributionname,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cssl.entity.Distribution">
+    insert into huawei_distribution
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="odDistributionid != null">
+        od_distributionid,
+      </if>
+      <if test="odDistributionname != null">
+        od_distributionname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="odDistributionid != null">
+        #{odDistributionid,jdbcType=INTEGER},
+      </if>
+      <if test="odDistributionname != null">
+        #{odDistributionname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cssl.entity.DistributionExample" resultType="java.lang.Long">
+    select count(*) from huawei_distribution
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update huawei_distribution
+    <set>
+      <if test="record.odDistributionid != null">
+        od_distributionid = #{record.odDistributionid,jdbcType=INTEGER},
+      </if>
+      <if test="record.odDistributionname != null">
+        od_distributionname = #{record.odDistributionname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update huawei_distribution
+    set od_distributionid = #{record.odDistributionid,jdbcType=INTEGER},
+      od_distributionname = #{record.odDistributionname,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cssl.entity.Distribution">
+    update huawei_distribution
+    <set>
+      <if test="odDistributionname != null">
+        od_distributionname = #{odDistributionname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where od_distributionid = #{odDistributionid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cssl.entity.Distribution">
+    update huawei_distribution
+    set od_distributionname = #{odDistributionname,jdbcType=VARCHAR}
+    where od_distributionid = #{odDistributionid,jdbcType=INTEGER}
+  </update>
+</mapper>

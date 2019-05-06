@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cssl.dao.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.cssl.entity.Order">
+    <id column="od_id" jdbcType="VARCHAR" property="odId" />
+    <result column="od_user_id" jdbcType="INTEGER" property="odUserId" />
+    <result column="od_user_name" jdbcType="VARCHAR" property="odUserName" />
+    <result column="od_user_address" jdbcType="VARCHAR" property="odUserAddress" />
+    <result column="od_create_time" jdbcType="TIMESTAMP" property="odCreateTime" />
+    <result column="od_distributionid" jdbcType="INTEGER" property="odDistributionid" />
+    <result column="od_arrivaltime" jdbcType="TIMESTAMP" property="odArrivaltime" />
+    <result column="od_cost" jdbcType="DOUBLE" property="odCost" />
+    <result column="od_status" jdbcType="INTEGER" property="odStatus" />
+    <result column="od_type" jdbcType="INTEGER" property="odType" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    od_id, od_user_id, od_user_name, od_user_address, od_create_time, od_distributionid, 
+    od_arrivaltime, od_cost, od_status, od_type
+  </sql>
+  <select id="selectByExample" parameterType="com.cssl.entity.OrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from huawei_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from huawei_order
+    where od_id = #{odId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from huawei_order
+    where od_id = #{odId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cssl.entity.OrderExample">
+    delete from huawei_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cssl.entity.Order">
+    insert into huawei_order (od_id, od_user_id, od_user_name, 
+      od_user_address, od_create_time, od_distributionid, 
+      od_arrivaltime, od_cost, od_status, 
+      od_type)
+    values (#{odId,jdbcType=VARCHAR}, #{odUserId,jdbcType=INTEGER}, #{odUserName,jdbcType=VARCHAR}, 
+      #{odUserAddress,jdbcType=VARCHAR}, #{odCreateTime,jdbcType=TIMESTAMP}, #{odDistributionid,jdbcType=INTEGER}, 
+      #{odArrivaltime,jdbcType=TIMESTAMP}, #{odCost,jdbcType=DOUBLE}, #{odStatus,jdbcType=INTEGER}, 
+      #{odType,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cssl.entity.Order">
+    insert into huawei_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="odId != null">
+        od_id,
+      </if>
+      <if test="odUserId != null">
+        od_user_id,
+      </if>
+      <if test="odUserName != null">
+        od_user_name,
+      </if>
+      <if test="odUserAddress != null">
+        od_user_address,
+      </if>
+      <if test="odCreateTime != null">
+        od_create_time,
+      </if>
+      <if test="odDistributionid != null">
+        od_distributionid,
+      </if>
+      <if test="odArrivaltime != null">
+        od_arrivaltime,
+      </if>
+      <if test="odCost != null">
+        od_cost,
+      </if>
+      <if test="odStatus != null">
+        od_status,
+      </if>
+      <if test="odType != null">
+        od_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="odId != null">
+        #{odId,jdbcType=VARCHAR},
+      </if>
+      <if test="odUserId != null">
+        #{odUserId,jdbcType=INTEGER},
+      </if>
+      <if test="odUserName != null">
+        #{odUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="odUserAddress != null">
+        #{odUserAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="odCreateTime != null">
+        #{odCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="odDistributionid != null">
+        #{odDistributionid,jdbcType=INTEGER},
+      </if>
+      <if test="odArrivaltime != null">
+        #{odArrivaltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="odCost != null">
+        #{odCost,jdbcType=DOUBLE},
+      </if>
+      <if test="odStatus != null">
+        #{odStatus,jdbcType=INTEGER},
+      </if>
+      <if test="odType != null">
+        #{odType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cssl.entity.OrderExample" resultType="java.lang.Long">
+    select count(*) from huawei_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update huawei_order
+    <set>
+      <if test="record.odId != null">
+        od_id = #{record.odId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.odUserId != null">
+        od_user_id = #{record.odUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.odUserName != null">
+        od_user_name = #{record.odUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.odUserAddress != null">
+        od_user_address = #{record.odUserAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.odCreateTime != null">
+        od_create_time = #{record.odCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.odDistributionid != null">
+        od_distributionid = #{record.odDistributionid,jdbcType=INTEGER},
+      </if>
+      <if test="record.odArrivaltime != null">
+        od_arrivaltime = #{record.odArrivaltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.odCost != null">
+        od_cost = #{record.odCost,jdbcType=DOUBLE},
+      </if>
+      <if test="record.odStatus != null">
+        od_status = #{record.odStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.odType != null">
+        od_type = #{record.odType,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update huawei_order
+    set od_id = #{record.odId,jdbcType=VARCHAR},
+      od_user_id = #{record.odUserId,jdbcType=INTEGER},
+      od_user_name = #{record.odUserName,jdbcType=VARCHAR},
+      od_user_address = #{record.odUserAddress,jdbcType=VARCHAR},
+      od_create_time = #{record.odCreateTime,jdbcType=TIMESTAMP},
+      od_distributionid = #{record.odDistributionid,jdbcType=INTEGER},
+      od_arrivaltime = #{record.odArrivaltime,jdbcType=TIMESTAMP},
+      od_cost = #{record.odCost,jdbcType=DOUBLE},
+      od_status = #{record.odStatus,jdbcType=INTEGER},
+      od_type = #{record.odType,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cssl.entity.Order">
+    update huawei_order
+    <set>
+      <if test="odUserId != null">
+        od_user_id = #{odUserId,jdbcType=INTEGER},
+      </if>
+      <if test="odUserName != null">
+        od_user_name = #{odUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="odUserAddress != null">
+        od_user_address = #{odUserAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="odCreateTime != null">
+        od_create_time = #{odCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="odDistributionid != null">
+        od_distributionid = #{odDistributionid,jdbcType=INTEGER},
+      </if>
+      <if test="odArrivaltime != null">
+        od_arrivaltime = #{odArrivaltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="odCost != null">
+        od_cost = #{odCost,jdbcType=DOUBLE},
+      </if>
+      <if test="odStatus != null">
+        od_status = #{odStatus,jdbcType=INTEGER},
+      </if>
+      <if test="odType != null">
+        od_type = #{odType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where od_id = #{odId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cssl.entity.Order">
+    update huawei_order
+    set od_user_id = #{odUserId,jdbcType=INTEGER},
+      od_user_name = #{odUserName,jdbcType=VARCHAR},
+      od_user_address = #{odUserAddress,jdbcType=VARCHAR},
+      od_create_time = #{odCreateTime,jdbcType=TIMESTAMP},
+      od_distributionid = #{odDistributionid,jdbcType=INTEGER},
+      od_arrivaltime = #{odArrivaltime,jdbcType=TIMESTAMP},
+      od_cost = #{odCost,jdbcType=DOUBLE},
+      od_status = #{odStatus,jdbcType=INTEGER},
+      od_type = #{odType,jdbcType=INTEGER}
+    where od_id = #{odId,jdbcType=VARCHAR}
+  </update>
+</mapper>

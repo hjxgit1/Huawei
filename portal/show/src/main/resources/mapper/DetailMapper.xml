@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cssl.dao.DetailMapper">
+  <resultMap id="BaseResultMap" type="com.cssl.entity.Detail">
+    <id column="odd_id" jdbcType="INTEGER" property="oddId" />
+    <result column="od_id" jdbcType="VARCHAR" property="odId" />
+    <result column="phone_id" jdbcType="INTEGER" property="phoneId" />
+    <result column="odd_quantity" jdbcType="INTEGER" property="oddQuantity" />
+    <result column="odd_cost" jdbcType="DOUBLE" property="oddCost" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    odd_id, od_id, phone_id, odd_quantity, odd_cost
+  </sql>
+  <select id="selectByExample" parameterType="com.cssl.entity.DetailExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from huawei_order_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from huawei_order_detail
+    where odd_id = #{oddId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from huawei_order_detail
+    where odd_id = #{oddId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cssl.entity.DetailExample">
+    delete from huawei_order_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cssl.entity.Detail">
+    insert into huawei_order_detail (odd_id, od_id, phone_id, 
+      odd_quantity, odd_cost)
+    values (#{oddId,jdbcType=INTEGER}, #{odId,jdbcType=VARCHAR}, #{phoneId,jdbcType=INTEGER}, 
+      #{oddQuantity,jdbcType=INTEGER}, #{oddCost,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cssl.entity.Detail">
+    insert into huawei_order_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="oddId != null">
+        odd_id,
+      </if>
+      <if test="odId != null">
+        od_id,
+      </if>
+      <if test="phoneId != null">
+        phone_id,
+      </if>
+      <if test="oddQuantity != null">
+        odd_quantity,
+      </if>
+      <if test="oddCost != null">
+        odd_cost,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="oddId != null">
+        #{oddId,jdbcType=INTEGER},
+      </if>
+      <if test="odId != null">
+        #{odId,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneId != null">
+        #{phoneId,jdbcType=INTEGER},
+      </if>
+      <if test="oddQuantity != null">
+        #{oddQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="oddCost != null">
+        #{oddCost,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cssl.entity.DetailExample" resultType="java.lang.Long">
+    select count(*) from huawei_order_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update huawei_order_detail
+    <set>
+      <if test="record.oddId != null">
+        odd_id = #{record.oddId,jdbcType=INTEGER},
+      </if>
+      <if test="record.odId != null">
+        od_id = #{record.odId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phoneId != null">
+        phone_id = #{record.phoneId,jdbcType=INTEGER},
+      </if>
+      <if test="record.oddQuantity != null">
+        odd_quantity = #{record.oddQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.oddCost != null">
+        odd_cost = #{record.oddCost,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update huawei_order_detail
+    set odd_id = #{record.oddId,jdbcType=INTEGER},
+      od_id = #{record.odId,jdbcType=VARCHAR},
+      phone_id = #{record.phoneId,jdbcType=INTEGER},
+      odd_quantity = #{record.oddQuantity,jdbcType=INTEGER},
+      odd_cost = #{record.oddCost,jdbcType=DOUBLE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cssl.entity.Detail">
+    update huawei_order_detail
+    <set>
+      <if test="odId != null">
+        od_id = #{odId,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneId != null">
+        phone_id = #{phoneId,jdbcType=INTEGER},
+      </if>
+      <if test="oddQuantity != null">
+        odd_quantity = #{oddQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="oddCost != null">
+        odd_cost = #{oddCost,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where odd_id = #{oddId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cssl.entity.Detail">
+    update huawei_order_detail
+    set od_id = #{odId,jdbcType=VARCHAR},
+      phone_id = #{phoneId,jdbcType=INTEGER},
+      odd_quantity = #{oddQuantity,jdbcType=INTEGER},
+      odd_cost = #{oddCost,jdbcType=DOUBLE}
+    where odd_id = #{oddId,jdbcType=INTEGER}
+  </update>
+</mapper>

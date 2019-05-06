@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cssl.dao.ConsultMapper">
+  <resultMap id="BaseResultMap" type="com.cssl.entity.Consult">
+    <id column="con_id" jdbcType="INTEGER" property="conId" />
+    <result column="con_content" jdbcType="VARCHAR" property="conContent" />
+    <result column="con_create_time" jdbcType="TIMESTAMP" property="conCreateTime" />
+    <result column="con_nick_name" jdbcType="VARCHAR" property="conNickName" />
+    <result column="con_reply" jdbcType="VARCHAR" property="conReply" />
+    <result column="con_reply_time" jdbcType="TIMESTAMP" property="conReplyTime" />
+    <result column="phone_id" jdbcType="INTEGER" property="phoneId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    con_id, con_content, con_create_time, con_nick_name, con_reply, con_reply_time, phone_id
+  </sql>
+
+  <!--按商品Id查询所有咨询-->
+  <select id="selectAllByPhoneid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT * FROM huawei_consult
+    WHERE phone_id=#{phoneId,jdbcType=INTEGER}
+    limit #{pageIndex},#{pageSize}
+  </select>
+
+  <!--按商品id查询总数-->
+  <select id="selectCountByid"  parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    SELECT COUNT(1) FROM huawei_consult
+    WHERE phone_id=#{phoneId,jdbcType=INTEGER} AND con_reply IS NOT NULL
+  </select>
+
+  <!--新增咨询（用户）-->
+  <insert id="insertConsultAboutUser" parameterType="com.cssl.entity.Consult" useGeneratedKeys="true" keyProperty="con_id">
+    INSERT INTO huawei_consult(con_id,con_content,con_create_time,con_nick_name,phone_id)
+    VALUES(#{conId,jdbcType=INTEGER}, #{conContent,jdbcType=VARCHAR}, #{conCreateTime,jdbcType=TIMESTAMP},
+      #{conNickName,jdbcType=VARCHAR}, #{phoneId,jdbcType=INTEGER})
+  </insert>
+
+
+  <select id="selectByExample" parameterType="com.cssl.entity.ConsultExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from huawei_consult
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from huawei_consult
+    where con_id = #{conId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from huawei_consult
+    where con_id = #{conId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cssl.entity.ConsultExample">
+    delete from huawei_consult
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cssl.entity.Consult">
+    insert into huawei_consult (con_id, con_content, con_create_time, 
+      con_nick_name, con_reply, con_reply_time, 
+      phone_id)
+    values (#{conId,jdbcType=INTEGER}, #{conContent,jdbcType=VARCHAR}, #{conCreateTime,jdbcType=TIMESTAMP}, 
+      #{conNickName,jdbcType=VARCHAR}, #{conReply,jdbcType=VARCHAR}, #{conReplyTime,jdbcType=TIMESTAMP}, 
+      #{phoneId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cssl.entity.Consult">
+    insert into huawei_consult
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="conId != null">
+        con_id,
+      </if>
+      <if test="conContent != null">
+        con_content,
+      </if>
+      <if test="conCreateTime != null">
+        con_create_time,
+      </if>
+      <if test="conNickName != null">
+        con_nick_name,
+      </if>
+      <if test="conReply != null">
+        con_reply,
+      </if>
+      <if test="conReplyTime != null">
+        con_reply_time,
+      </if>
+      <if test="phoneId != null">
+        phone_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="conId != null">
+        #{conId,jdbcType=INTEGER},
+      </if>
+      <if test="conContent != null">
+        #{conContent,jdbcType=VARCHAR},
+      </if>
+      <if test="conCreateTime != null">
+        #{conCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="conNickName != null">
+        #{conNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="conReply != null">
+        #{conReply,jdbcType=VARCHAR},
+      </if>
+      <if test="conReplyTime != null">
+        #{conReplyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phoneId != null">
+        #{phoneId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cssl.entity.ConsultExample" resultType="java.lang.Long">
+    select count(*) from huawei_consult
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update huawei_consult
+    <set>
+      <if test="record.conId != null">
+        con_id = #{record.conId,jdbcType=INTEGER},
+      </if>
+      <if test="record.conContent != null">
+        con_content = #{record.conContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.conCreateTime != null">
+        con_create_time = #{record.conCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.conNickName != null">
+        con_nick_name = #{record.conNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.conReply != null">
+        con_reply = #{record.conReply,jdbcType=VARCHAR},
+      </if>
+      <if test="record.conReplyTime != null">
+        con_reply_time = #{record.conReplyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.phoneId != null">
+        phone_id = #{record.phoneId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update huawei_consult
+    set con_id = #{record.conId,jdbcType=INTEGER},
+      con_content = #{record.conContent,jdbcType=VARCHAR},
+      con_create_time = #{record.conCreateTime,jdbcType=TIMESTAMP},
+      con_nick_name = #{record.conNickName,jdbcType=VARCHAR},
+      con_reply = #{record.conReply,jdbcType=VARCHAR},
+      con_reply_time = #{record.conReplyTime,jdbcType=TIMESTAMP},
+      phone_id = #{record.phoneId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cssl.entity.Consult">
+    update huawei_consult
+    <set>
+      <if test="conContent != null">
+        con_content = #{conContent,jdbcType=VARCHAR},
+      </if>
+      <if test="conCreateTime != null">
+        con_create_time = #{conCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="conNickName != null">
+        con_nick_name = #{conNickName,jdbcType=VARCHAR},
+      </if>
+      <if test="conReply != null">
+        con_reply = #{conReply,jdbcType=VARCHAR},
+      </if>
+      <if test="conReplyTime != null">
+        con_reply_time = #{conReplyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phoneId != null">
+        phone_id = #{phoneId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where con_id = #{conId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cssl.entity.Consult">
+    update huawei_consult
+    set con_content = #{conContent,jdbcType=VARCHAR},
+      con_create_time = #{conCreateTime,jdbcType=TIMESTAMP},
+      con_nick_name = #{conNickName,jdbcType=VARCHAR},
+      con_reply = #{conReply,jdbcType=VARCHAR},
+      con_reply_time = #{conReplyTime,jdbcType=TIMESTAMP},
+      phone_id = #{phoneId,jdbcType=INTEGER}
+    where con_id = #{conId,jdbcType=INTEGER}
+  </update>
+</mapper>

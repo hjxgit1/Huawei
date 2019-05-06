@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cssl.dao.ColorMapper">
+  <resultMap id="BaseResultMap" type="com.cssl.entity.Color">
+    <id column="phone_colorid" jdbcType="INTEGER" property="phoneColorid" />
+    <result column="phone_colorname" jdbcType="VARCHAR" property="phoneColorname" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    phone_colorid, phone_colorname
+  </sql>
+  <select id="selectByExample" parameterType="com.cssl.entity.ColorExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from huawei_color
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from huawei_color
+    where phone_colorid = #{phoneColorid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from huawei_color
+    where phone_colorid = #{phoneColorid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cssl.entity.ColorExample">
+    delete from huawei_color
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cssl.entity.Color">
+    insert into huawei_color (phone_colorid, phone_colorname)
+    values (#{phoneColorid,jdbcType=INTEGER}, #{phoneColorname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cssl.entity.Color">
+    insert into huawei_color
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="phoneColorid != null">
+        phone_colorid,
+      </if>
+      <if test="phoneColorname != null">
+        phone_colorname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="phoneColorid != null">
+        #{phoneColorid,jdbcType=INTEGER},
+      </if>
+      <if test="phoneColorname != null">
+        #{phoneColorname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cssl.entity.ColorExample" resultType="java.lang.Long">
+    select count(*) from huawei_color
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update huawei_color
+    <set>
+      <if test="record.phoneColorid != null">
+        phone_colorid = #{record.phoneColorid,jdbcType=INTEGER},
+      </if>
+      <if test="record.phoneColorname != null">
+        phone_colorname = #{record.phoneColorname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update huawei_color
+    set phone_colorid = #{record.phoneColorid,jdbcType=INTEGER},
+      phone_colorname = #{record.phoneColorname,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cssl.entity.Color">
+    update huawei_color
+    <set>
+      <if test="phoneColorname != null">
+        phone_colorname = #{phoneColorname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where phone_colorid = #{phoneColorid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cssl.entity.Color">
+    update huawei_color
+    set phone_colorname = #{phoneColorname,jdbcType=VARCHAR}
+    where phone_colorid = #{phoneColorid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cssl.dao.IPhoneMapper">
+  <resultMap id="BaseResultMap" type="com.cssl.entity.Phone">
+    <id column="phone_id" jdbcType="INTEGER" property="phoneId" />
+    <result column="phone_name" jdbcType="VARCHAR" property="phoneName" />
+    <result column="phone_cateid" jdbcType="INTEGER" property="phoneCateid" />
+    <result column="phone_child_cateid" jdbcType="INTEGER" property="phoneChildCateid" />
+    <result column="phone_desc" jdbcType="VARCHAR" property="phoneDesc" />
+    <result column="phone_video_path" jdbcType="VARCHAR" property="phoneVideoPath" />
+    <result column="phone_originalprice" jdbcType="DOUBLE" property="phoneOriginalprice" />
+    <result column="phone_stock" jdbcType="INTEGER" property="phoneStock" />
+    <result column="phone_createDate" jdbcType="TIMESTAMP" property="phoneCreatedate" />
+    <result column="phone_isputaway" jdbcType="CHAR" property="phoneIsputaway" />
+    <collection column="phoneId" property="imageList" select="com.cssl.dao.IImageMapper.selectImage"></collection>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    phone_id, phone_name, phone_cateid, phone_child_cateid, phone_desc, phone_video_path, 
+    phone_originalprice, phone_stock, phone_createDate, phone_isputaway
+  </sql>
+
+  <!-- 根据菜单id查询相应的产品 -->
+  <select id="selectPhone" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT * FROM huawei_honorphone
+    WHERE phone_cateid IN (
+      #{hpcId}
+    )
+  </select>
+
+  <select id="selectByExample" parameterType="com.cssl.entity.PhoneExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from huawei_honorphone
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from huawei_honorphone
+    where phone_id = #{phoneId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from huawei_honorphone
+    where phone_id = #{phoneId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cssl.entity.PhoneExample">
+    delete from huawei_honorphone
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cssl.entity.Phone">
+    insert into huawei_honorphone (phone_id, phone_name, phone_cateid, 
+      phone_child_cateid, phone_desc, phone_video_path, 
+      phone_originalprice, phone_stock, phone_createDate, 
+      phone_isputaway)
+    values (#{phoneId,jdbcType=INTEGER}, #{phoneName,jdbcType=VARCHAR}, #{phoneCateid,jdbcType=INTEGER}, 
+      #{phoneChildCateid,jdbcType=INTEGER}, #{phoneDesc,jdbcType=VARCHAR}, #{phoneVideoPath,jdbcType=VARCHAR}, 
+      #{phoneOriginalprice,jdbcType=DOUBLE}, #{phoneStock,jdbcType=INTEGER}, #{phoneCreatedate,jdbcType=TIMESTAMP}, 
+      #{phoneIsputaway,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cssl.entity.Phone">
+    insert into huawei_honorphone
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="phoneId != null">
+        phone_id,
+      </if>
+      <if test="phoneName != null">
+        phone_name,
+      </if>
+      <if test="phoneCateid != null">
+        phone_cateid,
+      </if>
+      <if test="phoneChildCateid != null">
+        phone_child_cateid,
+      </if>
+      <if test="phoneDesc != null">
+        phone_desc,
+      </if>
+      <if test="phoneVideoPath != null">
+        phone_video_path,
+      </if>
+      <if test="phoneOriginalprice != null">
+        phone_originalprice,
+      </if>
+      <if test="phoneStock != null">
+        phone_stock,
+      </if>
+      <if test="phoneCreatedate != null">
+        phone_createDate,
+      </if>
+      <if test="phoneIsputaway != null">
+        phone_isputaway,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="phoneId != null">
+        #{phoneId,jdbcType=INTEGER},
+      </if>
+      <if test="phoneName != null">
+        #{phoneName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneCateid != null">
+        #{phoneCateid,jdbcType=INTEGER},
+      </if>
+      <if test="phoneChildCateid != null">
+        #{phoneChildCateid,jdbcType=INTEGER},
+      </if>
+      <if test="phoneDesc != null">
+        #{phoneDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneVideoPath != null">
+        #{phoneVideoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneOriginalprice != null">
+        #{phoneOriginalprice,jdbcType=DOUBLE},
+      </if>
+      <if test="phoneStock != null">
+        #{phoneStock,jdbcType=INTEGER},
+      </if>
+      <if test="phoneCreatedate != null">
+        #{phoneCreatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phoneIsputaway != null">
+        #{phoneIsputaway,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cssl.entity.PhoneExample" resultType="java.lang.Long">
+    select count(*) from huawei_honorphone
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update huawei_honorphone
+    <set>
+      <if test="record.phoneId != null">
+        phone_id = #{record.phoneId,jdbcType=INTEGER},
+      </if>
+      <if test="record.phoneName != null">
+        phone_name = #{record.phoneName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phoneCateid != null">
+        phone_cateid = #{record.phoneCateid,jdbcType=INTEGER},
+      </if>
+      <if test="record.phoneChildCateid != null">
+        phone_child_cateid = #{record.phoneChildCateid,jdbcType=INTEGER},
+      </if>
+      <if test="record.phoneDesc != null">
+        phone_desc = #{record.phoneDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phoneVideoPath != null">
+        phone_video_path = #{record.phoneVideoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phoneOriginalprice != null">
+        phone_originalprice = #{record.phoneOriginalprice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.phoneStock != null">
+        phone_stock = #{record.phoneStock,jdbcType=INTEGER},
+      </if>
+      <if test="record.phoneCreatedate != null">
+        phone_createDate = #{record.phoneCreatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.phoneIsputaway != null">
+        phone_isputaway = #{record.phoneIsputaway,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update huawei_honorphone
+    set phone_id = #{record.phoneId,jdbcType=INTEGER},
+      phone_name = #{record.phoneName,jdbcType=VARCHAR},
+      phone_cateid = #{record.phoneCateid,jdbcType=INTEGER},
+      phone_child_cateid = #{record.phoneChildCateid,jdbcType=INTEGER},
+      phone_desc = #{record.phoneDesc,jdbcType=VARCHAR},
+      phone_video_path = #{record.phoneVideoPath,jdbcType=VARCHAR},
+      phone_originalprice = #{record.phoneOriginalprice,jdbcType=DOUBLE},
+      phone_stock = #{record.phoneStock,jdbcType=INTEGER},
+      phone_createDate = #{record.phoneCreatedate,jdbcType=TIMESTAMP},
+      phone_isputaway = #{record.phoneIsputaway,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cssl.entity.Phone">
+    update huawei_honorphone
+    <set>
+      <if test="phoneName != null">
+        phone_name = #{phoneName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneCateid != null">
+        phone_cateid = #{phoneCateid,jdbcType=INTEGER},
+      </if>
+      <if test="phoneChildCateid != null">
+        phone_child_cateid = #{phoneChildCateid,jdbcType=INTEGER},
+      </if>
+      <if test="phoneDesc != null">
+        phone_desc = #{phoneDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneVideoPath != null">
+        phone_video_path = #{phoneVideoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneOriginalprice != null">
+        phone_originalprice = #{phoneOriginalprice,jdbcType=DOUBLE},
+      </if>
+      <if test="phoneStock != null">
+        phone_stock = #{phoneStock,jdbcType=INTEGER},
+      </if>
+      <if test="phoneCreatedate != null">
+        phone_createDate = #{phoneCreatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phoneIsputaway != null">
+        phone_isputaway = #{phoneIsputaway,jdbcType=CHAR},
+      </if>
+    </set>
+    where phone_id = #{phoneId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cssl.entity.Phone">
+    update huawei_honorphone
+    set phone_name = #{phoneName,jdbcType=VARCHAR},
+      phone_cateid = #{phoneCateid,jdbcType=INTEGER},
+      phone_child_cateid = #{phoneChildCateid,jdbcType=INTEGER},
+      phone_desc = #{phoneDesc,jdbcType=VARCHAR},
+      phone_video_path = #{phoneVideoPath,jdbcType=VARCHAR},
+      phone_originalprice = #{phoneOriginalprice,jdbcType=DOUBLE},
+      phone_stock = #{phoneStock,jdbcType=INTEGER},
+      phone_createDate = #{phoneCreatedate,jdbcType=TIMESTAMP},
+      phone_isputaway = #{phoneIsputaway,jdbcType=CHAR}
+    where phone_id = #{phoneId,jdbcType=INTEGER}
+  </update>
+</mapper>
